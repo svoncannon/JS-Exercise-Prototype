@@ -38,11 +38,44 @@ Airplane.prototype.land = function () {
     - Give instances of Person a method `.toString()`:
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
-
-function Person() {
-
+function Person(name, age){
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
 
+// create an eat method that gives the person the ability to eat some edible - it has a param of somthing that we can pass food into 
+// if the stomach length is < 10 the person can eat 
+// we want to push the argument of something edible to the array (stomach)
+
+Person.prototype.eat = function(edible){
+  if(this.stomach.length < 10){
+    this.stomach.push(edible);
+  }
+}
+
+// we need to create a poop method 
+Person.prototype.poop = function(){
+  this.stomach = [];
+}
+
+// method called toString - needs to return a string with name and age 
+
+Person.prototype.toString = function(){
+  return `${this.name}, ${this.age}`;
+}
+
+// create my object 
+
+const personOne = new Person('Ashton', 34);
+
+console.log(personOne.toString());
+personOne.eat('tacos');
+personOne.eat('fried chicken');
+personOne.eat('sashimi');
+console.log(personOne.stomach);
+personOne.poop();
+console.log(personOne.stomach);
 /*
   TASK 2
     - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
@@ -57,10 +90,17 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+    
+  
 }
-
+  Car.prototype.fill = function(gallons) {
+  this.tank += gallons;
+}
 /*
   TASK 3
     - Write a Baby constructor subclassing Person.
@@ -68,18 +108,26 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
+function Baby(name, age, favoriteToy) {
+  this.name = name;
+  this.age = age;
+  this.favoriteToy = favoriteToy;
 
+}
+Baby.prototype = Object.create(Person.prototype);
+
+Person.prototype.play = function(favoriteToy){
+  return `Playing with ${this.favoriteToy}`
 }
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window Binding-If none of the other rules apply 'this' defaults to window unless in strict mode then it will return undefined
+  2. Implicit Binding- look to left of the dot thats what 'this' refers to
+  3. New Binding- uses the new keyword contructs a new object and 'this' points to it
+  4. Explicit Binding-  allow us to explicitly state what 'this' refers to
 */
 
 
